@@ -10,12 +10,12 @@ def generate_launch_description():
     
     input_points_topics_list_param = DeclareLaunchArgument(
         "input_points_topics_list",
-        default_value="['/livox/lidar/front_left', '/livox/lidar/front_center', '/livox/lidar/front_right']",
+        default_value="['/luminar_left_points', '/luminar_right_points', '/luminar_front_points']",
         description="Input pointcloud topic_name list as a string_array. "
         "To subscribe multiple topics, write as: \"['/points_raw0', '/points_raw1', ...]\"",
     )
     
-    tf_output_frame_param = DeclareLaunchArgument("tf_output_frame", default_value="base_link")
+    tf_output_frame_param = DeclareLaunchArgument("output_frame", default_value="merged_points")
     
     concat_node = ComposableNode(
         package="pointcloud_preprocessor",
@@ -25,7 +25,7 @@ def generate_launch_description():
         parameters=[
             {
                 "input_topics": LaunchConfiguration("input_points_topics_list"),
-                "output_frame": LaunchConfiguration("tf_output_frame"),
+                "output_frame": LaunchConfiguration("output_frame"),
                 "timeout_sec": 0.0333,
             }
         ],)
